@@ -1,0 +1,207 @@
+{
+	"sid": 417250037485371,
+	"nodes": [
+		{
+			"sid": 752656701422547,
+			"pnSIDs": [],
+			"poSIDs": [],
+			"nodeSIDs": [
+				782598325644812
+			],
+			"outputs": [
+				{
+					"sid": 431903376025703,
+					"cnSID": 782598325644812,
+					"name": "en",
+					"value": "test dialogue",
+					"enable": true,
+					"default": false
+				}
+			],
+			"x": 9695,
+			"y": 9441,
+			"w": 420,
+			"h": 166,
+			"t": "start",
+			"s": false,
+			"e": true,
+			"pi": 0,
+			"c": "Start Template",
+			"ty": "dictionary",
+			"pr": true,
+			"prfsid": null,
+			"prfnsid": null
+		},
+		{
+			"sid": 782598325644812,
+			"pnSIDs": [
+				752656701422547
+			],
+			"poSIDs": [
+				431903376025703
+			],
+			"nodeSIDs": [
+				248517974903607
+			],
+			"outputs": [
+				{
+					"sid": 284692269909132,
+					"cnSID": 248517974903607,
+					"name": "en",
+					"value": "second dialogue",
+					"enable": true,
+					"default": false
+				}
+			],
+			"x": 10401,
+			"y": 9432,
+			"w": 420,
+			"h": 132,
+			"t": "mid",
+			"s": false,
+			"e": true,
+			"pi": 0,
+			"c": "Flowchart node",
+			"ty": "dictionary",
+			"pr": false,
+			"prfsid": null,
+			"prfnsid": null
+		},
+		{
+			"sid": 248517974903607,
+			"pnSIDs": [
+				782598325644812
+			],
+			"poSIDs": [
+				284692269909132
+			],
+			"nodeSIDs": [],
+			"outputs": [
+				{
+					"sid": 519010699751948,
+					"cnSID": null,
+					"name": "Option 1",
+					"value": "Value 1",
+					"enable": true,
+					"default": false
+				}
+			],
+			"x": 10925,
+			"y": 9432,
+			"w": 420,
+			"h": 132,
+			"t": "end",
+			"s": false,
+			"e": true,
+			"pi": 0,
+			"c": "Flowchart node",
+			"ty": "dictionary",
+			"pr": false,
+			"prfsid": null,
+			"prfnsid": null
+		},
+		{
+			"sid": 184632426201389,
+			"pnSIDs": [],
+			"poSIDs": [],
+			"nodeSIDs": [
+				769278462972155
+			],
+			"outputs": [
+				{
+					"sid": 896927770142118,
+					"cnSID": 769278462972155,
+					"name": "en",
+					"value": "scene2 dialogue",
+					"enable": true,
+					"default": false
+				}
+			],
+			"x": 9677,
+			"y": 9782,
+			"w": 420,
+			"h": 166,
+			"t": "scene2",
+			"s": true,
+			"e": true,
+			"pi": 0,
+			"c": "Start Template",
+			"ty": "dictionary",
+			"pr": false,
+			"prfsid": 417250037485371,
+			"prfnsid": 752656701422547
+		},
+		{
+			"sid": 769278462972155,
+			"pnSIDs": [
+				184632426201389
+			],
+			"poSIDs": [
+				896927770142118
+			],
+			"nodeSIDs": [],
+			"outputs": [
+				{
+					"sid": 243388636934760,
+					"cnSID": null,
+					"name": "Option 1",
+					"value": " ",
+					"enable": true,
+					"default": false
+				}
+			],
+			"x": 10417,
+			"y": 9793,
+			"w": 420,
+			"h": 132,
+			"t": "end",
+			"s": false,
+			"e": true,
+			"pi": 0,
+			"c": "Flowchart node",
+			"ty": "dictionary",
+			"pr": false,
+			"prfsid": null,
+			"prfnsid": null
+		}
+	],
+	"preset-nodes": {
+		"items": [
+			{
+				"sid": 752656701422547,
+				"pnSIDs": [],
+				"poSIDs": [],
+				"nodeSIDs": [
+					782598325644812
+				],
+				"outputs": [
+					{
+						"sid": 431903376025703,
+						"cnSID": 782598325644812,
+						"name": "en",
+						"value": "test dialogue",
+						"enable": true,
+						"default": false
+					}
+				],
+				"x": 9695,
+				"y": 9441,
+				"w": 420,
+				"h": 166,
+				"t": "start",
+				"s": false,
+				"e": true,
+				"pi": 0,
+				"c": "Start Template",
+				"ty": "dictionary",
+				"pr": true,
+				"prfsid": null,
+				"prfnsid": null
+			}
+		],
+		"subfolders": []
+	},
+	"name": "test",
+	"w": 20000,
+	"h": 20000
+}

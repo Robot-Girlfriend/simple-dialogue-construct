@@ -1,0 +1,41 @@
+{
+	"name": "DialogueSelectorBase",
+	"plugin-id": "Sprite",
+	"sid": 865111964492168,
+	"isGlobal": false,
+	"editorNewInstanceIsReplica": true,
+	"editorNewInstanceTemplateName": "Main",
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 6,
+						"height": 6,
+						"originX": 0.5,
+						"originY": 1,
+						"originalSource": "",
+						"exportFormat": "lossless",
+						"exportQuality": 0.8,
+						"fileType": "image/png",
+						"imageSpriteId": 936766,
+						"useCollisionPoly": true,
+						"duration": 1,
+						"tag": ""
+					}
+				],
+				"sid": 216943669504749,
+				"name": "Animation 1",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

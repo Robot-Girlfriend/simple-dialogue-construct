@@ -1,0 +1,863 @@
+{
+	"name": "eDialogueManager",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "README",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "how to set up this simple dialogue system.\n\ntasics:\n- the DialogueManager object should be a global object in your project, make sure it is spawned only once on project start\n- use flowcharts to organize different sets of dialogue. probably based on a single speaker or level or similar.\n- the first node of a flowchart's tag should be the name of the dialogue sequence\n- middle nodes are always tagged \"mid\"\n- ending node is always tagged \"end\" -- you should leave the ouptut value empty but it shouldn't matter.\n\nTo create a speaker:\n- create a new dialoguecomponent\n- make sure it has an overlap as a child in the hierarchy\n- attach the dialoguecomponent and overlap to the parent object as children\n- set the dialoguecomponent flowchart name to the flowchart you want this node to access\n- set the currScene variable to the start tag of the flow you want to reference\n- language doesn't do anything right now\n\n\nsetting up your layout:\n- add your dialoguebox and dialoguetext to a scene with parallax set to 0x0% and place them where you want (ideally this is a global layer you can add to as many layouts as you want)\n- on layouts where you will have dialogue, on layout start create your dialogueselector and mask as a hierarchy and put them on one of your main layers. they will automatically hide, unhide, and move themselves around\n"
+				}
+			],
+			"sid": 449370976616208
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "DIALOGUE",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "DIALOGUE TRIGGERS AND STATES",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-key-pressed",
+									"objectClass": "Keyboard",
+									"sid": 769544400188421,
+									"parameters": {
+										"key": 32
+									}
+								}
+							],
+							"actions": [],
+							"sid": 604847101441224,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "DialogueOverlap",
+											"sid": 614834382698851,
+											"parameters": {
+												"object": "Player"
+											}
+										},
+										{
+											"id": "pick-parent",
+											"objectClass": "DialogueOverlap",
+											"sid": 649041718803928,
+											"parameters": {
+												"parent": "DialogueComponent",
+												"which": "own"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "PlayDialogue",
+											"objectClass": "DialogueManager",
+											"sid": 211770526902369,
+											"parameters": [
+												"DialogueComponent.UID",
+												"DialogueComponent.flowChartName",
+												"DialogueComponent.currScene"
+											]
+										}
+									],
+									"sid": 128845447259766
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "DialogueOverlap",
+									"sid": 897311873334055,
+									"parameters": {
+										"object": "Player"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "DialogueOverlap",
+									"sid": 108713507655999,
+									"parameters": {
+										"instance-variable": "overlapping"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "DialogueOverlap",
+									"sid": 901827014232026,
+									"parameters": {
+										"tag": "\"overlapended\""
+									}
+								},
+								{
+									"customAction": "Hide",
+									"objectClass": "DialogueSelectorBase",
+									"sid": 896771743717630
+								},
+								{
+									"customAction": "Hide",
+									"objectClass": "DialogueBox",
+									"sid": 630961724977673
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "DialogueOverlap",
+									"sid": 169586787284090,
+									"parameters": {
+										"instance-variable": "overlapping",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 380664566533941
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "DialogueOverlap",
+									"sid": 793888164260292,
+									"parameters": {
+										"object": "Player"
+									}
+								},
+								{
+									"id": "pick-parent",
+									"objectClass": "DialogueOverlap",
+									"sid": 758313094335771,
+									"parameters": {
+										"parent": "DialogueComponent",
+										"which": "own"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "DialogueOverlap",
+									"sid": 718255319341355,
+									"parameters": {
+										"instance-variable": "overlapping",
+										"value": "true"
+									}
+								},
+								{
+									"customAction": "MoveToNewObject",
+									"objectClass": "DialogueSelectorBase",
+									"sid": 890686459078540,
+									"parameters": [
+										"DialogueComponent.X",
+										"DialogueComponent.Y"
+									]
+								}
+							],
+							"sid": 354520020841841
+						}
+					],
+					"sid": 506460538617432
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "DIALOGUE BOX",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"aceType": "action",
+							"aceName": "Show",
+							"objectClass": "DialogueBox",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "DialogueBox",
+									"sid": 659184009624395,
+									"parameters": {
+										"visibility": "visible"
+									}
+								}
+							],
+							"sid": 610060517403184
+						},
+						{
+							"aceType": "action",
+							"aceName": "Hide",
+							"objectClass": "DialogueBox",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "DialogueBox",
+									"sid": 494006255645045,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								}
+							],
+							"sid": 369420867828879
+						}
+					],
+					"sid": 416951141172038
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "DIALOGUE SELECTOR",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "selectorDistance",
+							"type": "number",
+							"initialValue": "10",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 406953997375261
+						},
+						{
+							"aceType": "action",
+							"aceName": "Activate",
+							"objectClass": "DialogueSelectorMask",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 623184334263850,
+									"parameters": {
+										"x": "DialogueSelectorBase.X",
+										"y": "DialogueSelectorBase.Y"
+									}
+								},
+								{
+									"id": "set-active",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 976351701366990,
+									"behaviorType": "Sine",
+									"parameters": {
+										"state": "active"
+									}
+								}
+							],
+							"sid": 958010819645678
+						},
+						{
+							"aceType": "action",
+							"aceName": "Deactivate",
+							"objectClass": "DialogueSelectorMask",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-active",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 908954049538650,
+									"behaviorType": "Sine",
+									"parameters": {
+										"state": "inactive"
+									}
+								},
+								{
+									"id": "set-cycle-position",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 772104610315800,
+									"behaviorType": "Sine",
+									"parameters": {
+										"cycle-position": "0"
+									}
+								}
+							],
+							"sid": 576674496922849
+						},
+						{
+							"aceType": "action",
+							"aceName": "MoveToNewObject",
+							"objectClass": "DialogueSelectorBase",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "objX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 401627027857949
+								},
+								{
+									"name": "objY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 984477494117663
+								}
+							],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "DialogueSelectorBase",
+									"sid": 900393535906914,
+									"parameters": {
+										"x": "objX",
+										"y": "objY - selectorDistance"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 845418820565549,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"customAction": "Activate",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 131208958638401
+								}
+							],
+							"sid": 685811307757263
+						},
+						{
+							"aceType": "action",
+							"aceName": "Hide",
+							"objectClass": "DialogueSelectorBase",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 489786343519495,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"customAction": "Deactivate",
+									"objectClass": "DialogueSelectorMask",
+									"sid": 339286601653116
+								}
+							],
+							"sid": 510702214373667
+						}
+					],
+					"sid": 146757714940774
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "DIALOGUE MANAGER",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "typewriterSpeed",
+							"type": "number",
+							"initialValue": "0.5",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 348030784085717
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "DialogueOverlap",
+									"sid": 403413927666613,
+									"parameters": {
+										"tag": "\"overlapended\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "DialogueManager",
+									"sid": 280553718024239,
+									"parameters": {
+										"instance-variable": "isPlaying"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "EndDialogue",
+									"objectClass": "DialogueManager",
+									"sid": 553018167474740
+								}
+							],
+							"sid": 311266984757522
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-start-of-layout",
+									"objectClass": "System",
+									"sid": 637779708819344
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "DialogueText",
+									"sid": 980352232437256,
+									"parameters": {
+										"text": "\"\""
+									}
+								}
+							],
+							"sid": 597309028481470
+						},
+						{
+							"aceType": "action",
+							"aceName": "PlayDialogue",
+							"objectClass": "DialogueManager",
+							"functionDescription": "Plays a dialogue tree based on the flow chart from the dialogue component triggered in the game.",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "speakerUid",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 738426413788861
+								},
+								{
+									"name": "speakerName",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 369578709458886
+								},
+								{
+									"name": "currentScene",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 347022260680510
+								}
+							],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 504249220852270,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "return",
+									"type": "boolean",
+									"initialValue": "false",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 940411051231489
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "DialogueManager",
+											"sid": 155011140886858,
+											"parameters": {
+												"instance-variable": "isPlaying"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 161118577708207,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-running-typewriter-text",
+													"objectClass": "DialogueText",
+													"sid": 854350829215633
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 760924366459288,
+													"parameters": {
+														"variable": "return"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "typewriter-finish",
+													"objectClass": "DialogueText",
+													"sid": 735774731347362
+												},
+												{
+													"id": "set-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 630085002534276,
+													"parameters": {
+														"variable": "return",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 962475707221788
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-node-tag",
+													"objectClass": "FlowchartController",
+													"sid": 308697208978596,
+													"parameters": {
+														"comparison": 0,
+														"value": "currentScene"
+													}
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 531885288475206,
+													"parameters": {
+														"variable": "return"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "goto-next-flowchart-node",
+													"objectClass": "FlowchartController",
+													"sid": 540217102544716,
+													"parameters": {
+														"index-or-name": "0"
+													}
+												},
+												{
+													"id": "typewriter-text",
+													"objectClass": "DialogueText",
+													"sid": 962541067235367,
+													"parameters": {
+														"text": "FlowchartController.CurOutputValue",
+														"duration": "typewriterSpeed"
+													}
+												},
+												{
+													"id": "set-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 469595969333414,
+													"parameters": {
+														"variable": "return",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 682663404122190,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-node-tag",
+															"objectClass": "FlowchartController",
+															"sid": 843229683906756,
+															"parameters": {
+																"comparison": 0,
+																"value": "\"end\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"customAction": "EndDialogue",
+															"objectClass": "DialogueManager",
+															"sid": 975105759422872
+														},
+														{
+															"customAction": "Hide",
+															"objectClass": "DialogueBox",
+															"sid": 651758554710787
+														},
+														{
+															"id": "set-boolean-eventvar",
+															"objectClass": "System",
+															"sid": 271641567587533,
+															"parameters": {
+																"variable": "return",
+																"value": "true"
+															}
+														}
+													],
+													"sid": 530362934606185
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-node-tag",
+													"objectClass": "FlowchartController",
+													"sid": 832966929223902,
+													"parameters": {
+														"comparison": 0,
+														"value": "\"mid\""
+													}
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 997795134081657,
+													"parameters": {
+														"variable": "return"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "goto-next-flowchart-node",
+													"objectClass": "FlowchartController",
+													"sid": 249053301227276,
+													"parameters": {
+														"index-or-name": "0"
+													}
+												},
+												{
+													"id": "typewriter-text",
+													"objectClass": "DialogueText",
+													"sid": 484647930393443,
+													"parameters": {
+														"text": "FlowchartController.CurOutputValue",
+														"duration": "typewriterSpeed"
+													}
+												}
+											],
+											"sid": 900924161393939
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-node-tag",
+													"objectClass": "FlowchartController",
+													"sid": 148491613245949,
+													"parameters": {
+														"comparison": 0,
+														"value": "\"end\""
+													}
+												},
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 732042283067733,
+													"parameters": {
+														"variable": "return"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"customAction": "EndDialogue",
+													"objectClass": "DialogueManager",
+													"sid": 371362217707199
+												},
+												{
+													"customAction": "Hide",
+													"objectClass": "DialogueBox",
+													"sid": 296954807625309
+												},
+												{
+													"id": "set-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 428252195556629,
+													"parameters": {
+														"variable": "return",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 340215403750902
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "DialogueManager",
+											"sid": 760197566648550,
+											"parameters": {
+												"instance-variable": "isPlaying"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 542592430452133,
+											"parameters": {
+												"variable": "return"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "start-flowchart-by-name",
+											"objectClass": "FlowchartController",
+											"sid": 284624367444644,
+											"parameters": {
+												"flowchart-name": "\"test\"",
+												"start-node-tag": "currentScene",
+												"flowchart-tag": "\"\"",
+												"set-as-current": true
+											}
+										},
+										{
+											"id": "typewriter-text",
+											"objectClass": "DialogueText",
+											"sid": 530058543440636,
+											"parameters": {
+												"text": "FlowchartController.CurOutputValue",
+												"duration": "typewriterSpeed"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "DialogueManager",
+											"sid": 427044069186703,
+											"parameters": {
+												"instance-variable": "isPlaying",
+												"value": "true"
+											}
+										},
+										{
+											"customAction": "Show",
+											"objectClass": "DialogueBox",
+											"sid": 418869394810276
+										}
+									],
+									"sid": 269826911793388
+								}
+							]
+						},
+						{
+							"aceType": "action",
+							"aceName": "EndDialogue",
+							"objectClass": "DialogueManager",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "end-flowchart",
+									"objectClass": "FlowchartController",
+									"sid": 290709283346285
+								},
+								{
+									"id": "set-text",
+									"objectClass": "DialogueText",
+									"sid": 572757570329044,
+									"parameters": {
+										"text": "\"\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "DialogueManager",
+									"sid": 942636099446783,
+									"parameters": {
+										"instance-variable": "isPlaying",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 752571636519295
+						}
+					],
+					"sid": 372841894414097
+				}
+			],
+			"sid": 373417061832942
+		}
+	],
+	"sid": 837348572865319
+}

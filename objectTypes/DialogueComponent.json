@@ -1,0 +1,70 @@
+{
+	"name": "DialogueComponent",
+	"plugin-id": "Sprite",
+	"sid": 650704295280502,
+	"isGlobal": false,
+	"editorNewInstanceIsReplica": true,
+	"editorNewInstanceTemplateName": "Main",
+	"instanceVariables": [
+		{
+			"name": "flowChartName",
+			"type": "string",
+			"desc": "",
+			"show": true,
+			"sid": 437828007268860
+		},
+		{
+			"name": "currScene",
+			"type": "string",
+			"desc": "",
+			"show": true,
+			"sid": 622466839537076
+		},
+		{
+			"name": "currFlowChartIndex",
+			"type": "number",
+			"desc": "",
+			"show": true,
+			"sid": 334026331251871
+		},
+		{
+			"name": "language",
+			"type": "string",
+			"desc": "",
+			"show": true,
+			"sid": 940434351961056
+		}
+	],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 8,
+						"height": 8,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "",
+						"exportFormat": "lossless",
+						"exportQuality": 0.8,
+						"fileType": "image/png",
+						"imageSpriteId": 476931,
+						"useCollisionPoly": true,
+						"duration": 1,
+						"tag": ""
+					}
+				],
+				"sid": 166267330849329,
+				"name": "Animation 1",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}
